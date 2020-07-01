@@ -1,6 +1,5 @@
 const Joi = require('@hapi/joi');
-const getValidatorError = require('../helpers/validator')
-
+const { getValidatorError } = require('../helpers/validator');
 
 const accountSignUp = (req, res, next) => {
     const { email, password, password_confirmation } = req.body;
@@ -14,11 +13,11 @@ const accountSignUp = (req, res, next) => {
     const options =  {abortEarly: false};
     const { error } = schema.validate({ email, password, password_confirmation }, options);
     if(error) {
-        const messages = getValidatorError(error);
+        const messages = getValidatorError(error, 'account.signup');
         return res.jsonBadRequest(null, null, {error: messages});
     }
 
-    next;
+    next();
 };
 
 module.exports = { accountSignUp }
